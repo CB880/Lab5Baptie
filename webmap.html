@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+  <title>Lab5 Simplification</title>
+   <h1>Lab5 Simplification</h1>
+   <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+   <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+   <script src="https://api.mapbox.com/styles/v1/cbaptie/ckzw6nz3p00bm14qtupu5ju1y/wmts?access_token=pk.eyJ1IjoiY2JhcHRpZSIsImEiOiJja3p3NG1naTkxYXNqMzBwazl3dmoxejAyIn0.Pbl19lXTMNW-Qei_7auoJA" ></script>
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+   <script src="geoJSON.js"></script>
+   <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"> </script>
+   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+   <script src="C:\Users\bapti\Downloads\Lab1Baptie\project1\node_modules\leaflet.markercluster\dist\leaflet.markercluster.js"> </script>
+  <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
+    <title>map</title>
+</head>
+   <script type="text/javascript" src="stylemap.js" ></script>
+
+</head>
+<body>
+      <div id="map" style="width: 100%;height: 600px"></div>
+
+      </style>
+      <script>
+
+          var map = L.map('map').setView([51.0447, -114.0719], 11);
+
+           L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=SM0NhkfUA2TbpCF7kL1L',
+                {attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'}).addTo(map)
+                //var marker = L.marker ([51.0447, -114.0719]).addTo(map)
+                //L.geoJSON(geoJSONlayer).addTo(map);
+
+                     // FeatureGroup is to store editable layers
+                     var drawnItems = new L.FeatureGroup();
+                     map.addLayer(drawnItems);
+                     var drawControl = new L.Control.Draw({
+                         edit: {
+                             featureGroup: drawnItems
+                         }
+                     });
+                     map.addControl(drawControl);
+                     var modifiedDraw = L.drawLocal.extend({
+         draw: {
+             toolbar: {
+                 buttons: {
+                     polygon: 'Draw an awesome polygon'
+                 }
+             }
+         }
+     }); var toolbar = L.Toolbar();
+   map.addToolbar(map);
+
+      </script>
+
+      <div class="container">
+        <form>
+        <br></br>
+        <br></br>
+        <button style=margin-left:600px; onclick="buttonFunc">Simplify</button>
+        <button style=margin-right:600px; onclick="buttonclear">Clear</button>
+
+      </div>
+      <script>
+      var drawnpolyline= new L.featuregroup();
+      map.addLayer(drawnpolyline)
+
+      var drawControl= new L.Control.Draw({
+      edit: {
+        featuregroup: drawnpolyline
+      }
+      });
+      map.addControl(drawControl);
+      map.on('draw:created', function (e){
+        var type = e.layerType,
+        layer= e.layer;
+        if (type === 'marker') {
+          layer.bindPopup('Mark');
+        }
+        drawnpolyline.addLayer(layer)
+      });
+
+      var drawnlines = new L.geoJSON().addTo(map);
+      var Line, simplified;
+
+      map.on('draw:created', function(e){
+        let type = e.layerType, layer= e.layer;
+        Line = e.layer.toGeoJSON();
+        drawnpolyline
+      });
+
+
+      </script>
+      <script type="text/javascript">
+      var drawnItems = new L.FeatureGroup();
+      map.addLayer(drawnItems);
+      var drawControl = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnItems
+          }
+      });
+      map.addControl(drawControl);
+      var toolbar = L.Toolbar();
+        toolbar.addToolbar(map);
+      </script>
+</body>
+</html>
